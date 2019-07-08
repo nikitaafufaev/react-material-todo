@@ -1,0 +1,52 @@
+.todo-item {
+  position: relative;
+  padding: 0 !important;
+
+  &:hover .todo-item__clear {
+    opacity: 1;
+  }
+
+  &__label {
+    display: block;
+    height: 100%;
+    width: 100%;
+    padding: 10px 20px;
+    color: #000;
+    cursor: pointer;
+  }
+
+  &__checkbox {
+    & + span:not(.lever) {
+      display: block;
+      height: 100%;
+
+      &:before {
+        box-sizing: border-box;
+        top: calc(50% - 9px);
+        margin-top: 0;
+      }
+    }
+
+    &:not(.filled-in) + span:not(.lever):after {
+      box-sizing: border-box;
+      top: calc(50% - 9px);
+      margin-top: 0;
+    }
+
+    &:checked + span:not(.lever):before {
+      box-sizing: border-box;
+      top: calc(50% - 11px);
+      border-right: 2px solid #42a5f5;
+      border-bottom: 2px solid #42a5f5;
+    }
+  }
+
+  &__clear {
+    position: absolute;
+    top: calc(50% - 16px);
+    right: 8px;
+    display: block;
+    opacity: 0;
+    box-shadow: none;
+  }
+}

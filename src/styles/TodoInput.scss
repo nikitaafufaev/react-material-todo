@@ -1,0 +1,15 @@
+.todo-input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__button {
+    flex-shrink: 0;
+    margin-right: 16px;
+  }
+
+  &__field:focus {
+    border-bottom: 1px solid #2196f3 !important;
+    box-shadow: 0 1px 0 0 #2196f3 !important;
+  }
+}

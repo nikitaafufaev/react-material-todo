@@ -1,0 +1,12 @@
+.clear-button {
+  display: flex;
+  justify-content: center;
+
+  &__btn {
+    font-size: 10px;
+
+    @media (min-width: 601px) {
+      font-size: 14px;
+    }
+  }
+}

@@ -54,7 +54,6 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'public', 'index.html'),
-      favicon: path.resolve(__dirname, 'public', 'favicon.ico'),
     }),
     new webpack.HotModuleReplacementPlugin(),
   ],
@@ -62,7 +61,6 @@ module.exports = {
     contentBase: path.resolve(__dirname, 'dist'),
     port: 3000,
     open: true,
-    hot: true,
   },
   resolve: {
     extensions: ['.js', '.json', '.jsx'],

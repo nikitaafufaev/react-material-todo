@@ -5,13 +5,22 @@ import '../styles/TodoList.scss';
 import TodoItem from './TodoItem';
 
 const TodoList = () => {
-  const items = ['Finish new app', 'Read book on programming', 'Run marathon', 'New To-do'];
+  const items = [
+    'Get more shampoo',
+    'Drink more coffee',
+    'Sleep less',
+    'Get less shampoo',
+    'Drink less coffee',
+    'Sleep more',
+  ];
   return (
-    <ul className="todo-list">
-      {items.map(value => (
-        <TodoItem item={value} key={Math.random()} />
-      ))}
-    </ul>
+    <form action="#">
+      <ul className="todo-list collection">
+        {items.map(value => (
+          <TodoItem item={value} key={Math.random()} />
+        ))}
+      </ul>
+    </form>
   );
 };
 
