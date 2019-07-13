@@ -2,7 +2,7 @@ import React from 'react';
 
 import '../styles/TasksDisplay.scss';
 
-const TasksDisplay = () => {
+function TasksDisplay() {
   return (
     <div className="tasks-display white-text">
       <span className="tasks-display__type blue">All Tasks: 3</span>
@@ -10,6 +10,6 @@ const TasksDisplay = () => {
       <span className="tasks-display__type teal">Complete: 2</span>
     </div>
   );
-};
+}
 
 export default TasksDisplay;

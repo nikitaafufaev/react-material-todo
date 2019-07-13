@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import '../styles/TodoItem.scss';
 
-const TodoItem = props => {
+function TodoItem(props) {
   const { item } = props;
   return (
     <li className="todo-item collection-item">
@@ -19,7 +19,7 @@ const TodoItem = props => {
       </button>
     </li>
   );
-};
+}
 
 TodoItem.propTypes = {
   item: PropTypes.string.isRequired,

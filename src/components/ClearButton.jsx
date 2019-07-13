@@ -2,7 +2,7 @@ import React from 'react';
 
 import '../styles/ClearButton.scss';
 
-const ClearButton = () => {
+function ClearButton() {
   return (
     <div className="clear-button">
       <button
@@ -14,6 +14,6 @@ const ClearButton = () => {
       </button>
     </div>
   );
-};
+}
 
 export default ClearButton;

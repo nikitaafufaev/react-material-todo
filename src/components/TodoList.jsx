@@ -4,7 +4,7 @@ import '../styles/TodoList.scss';
 
 import TodoItem from './TodoItem';
 
-const TodoList = () => {
+function TodoList() {
   const items = [
     'Get more shampoo',
     'Drink more coffee',
@@ -22,6 +22,6 @@ const TodoList = () => {
       </ul>
     </form>
   );
-};
+}
 
 export default TodoList;
