@@ -9,13 +9,19 @@ function TodoItem(props) {
   let icon = 'check_box_outline_blank';
 
   if (done) {
-    classes += ' done grey-text';
+    classes = `${classes} done grey-text`;
     icon = 'check_box';
   }
 
   return (
     <li className={classes}>
-      <div className="todo-item__main" onClick={() => toggleDone(done, index)}>
+      <div
+        className="todo-item__main"
+        role="button"
+        tabIndex="0"
+        onClick={() => toggleDone(done, index)}
+        onKeyPress={() => toggleDone(done, index)}
+      >
         <i className="todo-item__icon material-icons">{icon}</i>
         <span className="todo-item__text">{item}</span>
       </div>

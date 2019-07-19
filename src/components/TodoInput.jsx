@@ -24,7 +24,7 @@ class TodoInput extends Component {
   }
 
   render() {
-    const { text } = this.props;
+    const { inputText } = this.props;
 
     return (
       <form className="todo-input" onSubmit={this.taskSubmit}>
@@ -37,7 +37,7 @@ class TodoInput extends Component {
         <input
           className="todo-input__field"
           onChange={this.taskInput}
-          value={text}
+          value={inputText}
           type="text"
           placeholder="Create some tasks..."
         />
@@ -47,7 +47,7 @@ class TodoInput extends Component {
 }
 
 TodoInput.propTypes = {
-  text: PropTypes.string.isRequired,
+  inputText: PropTypes.string.isRequired,
   onTaskChange: PropTypes.func.isRequired,
   onTaskSubmit: PropTypes.func.isRequired,
 };

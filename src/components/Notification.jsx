@@ -1,34 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import '../styles/Notification.scss';
 
-class Notification extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      show: true,
-      failure: false,
-    };
-  }
+function Notification(props) {
+  const { showNotification, isFailure, notificationText } = props;
+  const showClass = showNotification ? 'show' : '';
+  const failureClass = isFailure ? 'red' : 'teal';
+  const classes = `notification white-text center-align ${failureClass} ${showClass}`;
 
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        show: false,
-      });
-    }, 3000);
-  }
-
-  render() {
-    const { show, failure } = this.state;
-    const showClass = show ? ' show' : '';
-    const failureClass = failure ? ' red' : ' teal';
-    let classes = 'notification white-text center-align';
-
-    classes += failureClass + showClass;
-
-    return <div className={classes}>Task successfully created</div>;
-  }
+  return <div className={classes}>{notificationText}</div>;
 }
+
+Notification.propTypes = {
+  showNotification: PropTypes.bool.isRequired,
+  isFailure: PropTypes.bool.isRequired,
+  notificationText: PropTypes.string.isRequired,
+};
 
 export default Notification;

@@ -21,7 +21,7 @@ function TodoOutput(props) {
   let classes = 'todo-output';
 
   if (incomplete === 0 && complete === 0) {
-    classes += ' hidden';
+    classes = `${classes} hidden`;
   }
 
   return (
@@ -33,7 +33,10 @@ function TodoOutput(props) {
         toggleDone={onToggleDone}
         deleteTask={onDeleteTask}
       />
-      <ClearButton isCompleted={!!complete} clearCompleteTasks={onClearCompleteTasks} />
+      <ClearButton
+        isCompleted={!!complete}
+        clearCompleteTasks={onClearCompleteTasks}
+      />
     </div>
   );
 }

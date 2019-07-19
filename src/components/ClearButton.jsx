@@ -7,7 +7,7 @@ function ClearButton(props) {
   const { isCompleted, clearCompleteTasks } = props;
   let classes = 'clear-button';
 
-  if (!isCompleted) classes += ' hidden';
+  if (!isCompleted) classes = `${classes} hidden`;
 
   return (
     <div className={classes}>

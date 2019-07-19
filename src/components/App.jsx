@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import '../styles/App.scss';
 
 import Notification from './Notification';
-import Header from './Header';
 import TodoInput from './TodoInput';
 import TodoOutput from './TodoOutput';
 
@@ -11,9 +10,12 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      text: '',
+      inputText: '',
       incompleteTasks: [],
       completeTasks: [],
+      showNotification: false,
+      isFailure: false,
+      notificationText: '',
     };
 
     this.onTaskChange = this.onTaskChange.bind(this);
@@ -23,23 +25,36 @@ class App extends Component {
     this.onToggleDone = this.onToggleDone.bind(this);
   }
 
-  onTaskChange(text) {
-    this.setState({
-      text,
-    });
+  onTaskChange(inputText) {
+    this.setState({ inputText });
   }
 
   onTaskSubmit() {
+    const { inputText } = this.state;
+    const success = this.checkTask(inputText);
+
+    this.deleteNotification();
+    if (!success) return;
+
     this.setState(state => ({
-      text: '',
-      incompleteTasks: [...state.incompleteTasks, state.text],
+      inputText: '',
+      incompleteTasks: [...state.incompleteTasks, state.inputText],
     }));
   }
 
   onClearCompleteTasks() {
+    const { completeTasks } = this.state;
+    const amount = completeTasks.length;
+
     this.setState({
       completeTasks: [],
+      showNotification: true,
+      isFailure: false,
+      notificationText: `${amount} completed task${
+        amount > 1 ? 's' : ''
+      } successfully deleted`,
     });
+    this.deleteNotification();
   }
 
   onDeleteTask(done, index) {
@@ -47,12 +62,16 @@ class App extends Component {
 
     this.setState(state => {
       const tasks = state[targetTasks].slice();
-      tasks.splice(index, 1);
+      const removed = tasks.splice(index, 1)[0];
 
       return {
         [targetTasks]: [...tasks],
+        showNotification: true,
+        isFailure: false,
+        notificationText: `Task "${removed}" successfully deleted`,
       };
     });
+    this.deleteNotification();
   }
 
   onToggleDone(done, index) {
@@ -73,17 +92,61 @@ class App extends Component {
     });
   }
 
+  deleteNotification() {
+    clearTimeout(this.timerId);
+    this.timerId = setTimeout(() => {
+      this.setState({ showNotification: false });
+    }, 3000);
+  }
+
+  checkTask(task) {
+    const state = { showNotification: true, isFailure: true };
+    if (task === '') {
+      this.setState({
+        ...state,
+        notificationText: 'New task can not be empty',
+      });
+      return false;
+    }
+
+    if (task.length < 3) {
+      this.setState({
+        ...state,
+        notificationText: 'New task must be at least 3 characters long',
+      });
+      return false;
+    }
+
+    this.setState({
+      ...state,
+      isFailure: false,
+      notificationText: `Task "${task}" successfully created`,
+    });
+    return true;
+  }
+
   render() {
-    const { text, incompleteTasks, completeTasks } = this.state;
+    const {
+      inputText,
+      incompleteTasks,
+      completeTasks,
+      showNotification,
+      isFailure,
+      notificationText,
+    } = this.state;
 
     return (
       <div className="row">
-        <Notification />
+        <Notification
+          showNotification={showNotification}
+          isFailure={isFailure}
+          notificationText={notificationText}
+        />
         <div className="app col s12 m10 offset-m1 l8 offset-l2">
-          <Header />
+          <h3 className="app__title white-text center-align">To Do</h3>
           <div className="app__main card-panel">
             <TodoInput
-              text={text}
+              inputText={inputText}
               onTaskChange={this.onTaskChange}
               onTaskSubmit={this.onTaskSubmit}
             />
