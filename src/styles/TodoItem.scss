@@ -2,7 +2,7 @@
   position: relative;
   padding: 0 !important;
 
-  &:hover .todo-item__clear {
+  &:hover button {
     opacity: 1;
   }
 
@@ -17,7 +17,7 @@
     margin-left: 8px;
   }
 
-  &__clear {
+  &__clear-button {
     position: absolute;
     top: calc(50% - 16px);
     right: 8px;

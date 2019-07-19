@@ -26,7 +26,7 @@ function TodoItem(props) {
         <span className="todo-item__text">{item}</span>
       </div>
       <button
-        className="todo-item__clear btn-floating btn-small waves-effect waves-light red"
+        className="todo-item__clear-button btn-floating btn-small waves-effect waves-light red"
         type="button"
         onClick={() => deleteTask(done, index)}
       >

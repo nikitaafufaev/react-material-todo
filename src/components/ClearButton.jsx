@@ -17,7 +17,9 @@ function ClearButton(props) {
         onClick={() => clearCompleteTasks()}
       >
         Clear completed tasks
-        <i className="material-icons right">delete_forever</i>
+        <i className="clear-button__icon material-icons right">
+          delete_forever
+        </i>
       </button>
     </div>
   );

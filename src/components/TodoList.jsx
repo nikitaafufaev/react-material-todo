@@ -5,31 +5,26 @@ import '../styles/TodoList.scss';
 
 import TodoItem from './TodoItem';
 
+function renderTasks(tasks, done, toggleDone, deleteTask) {
+  return tasks.map((value, index) => (
+    <TodoItem
+      done={done}
+      item={value}
+      index={index}
+      toggleDone={toggleDone}
+      deleteTask={deleteTask}
+      key={value + Math.random().toFixed(3)}
+    />
+  ));
+}
+
 function TodoList(props) {
   const { incompleteTasks, completeTasks, toggleDone, deleteTask } = props;
 
   return (
     <ul className="todo-list collection">
-      {incompleteTasks.map((value, index) => (
-        <TodoItem
-          done={false}
-          item={value}
-          index={index}
-          toggleDone={toggleDone}
-          deleteTask={deleteTask}
-          key={value + Math.random().toFixed(3)}
-        />
-      ))}
-      {completeTasks.map((value, index) => (
-        <TodoItem
-          done
-          item={value}
-          index={index}
-          toggleDone={toggleDone}
-          deleteTask={deleteTask}
-          key={value + Math.random().toFixed(3)}
-        />
-      ))}
+      {renderTasks(incompleteTasks, false, toggleDone, deleteTask)}
+      {renderTasks(completeTasks, true, toggleDone, deleteTask)}
     </ul>
   );
 }

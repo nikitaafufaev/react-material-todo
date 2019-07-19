@@ -1,49 +1,34 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import '../styles/TodoInput.scss';
 
-class TodoInput extends Component {
-  constructor(props) {
-    super(props);
+function TodoInput(props) {
+  const { inputText, onTaskSubmit, onTaskChange } = props;
 
-    this.taskInput = this.taskInput.bind(this);
-    this.taskSubmit = this.taskSubmit.bind(this);
-  }
-
-  taskInput(event) {
-    const { onTaskChange } = this.props;
-    onTaskChange(event.target.value);
-  }
-
-  taskSubmit(event) {
-    event.preventDefault();
-
-    const { onTaskSubmit } = this.props;
-    onTaskSubmit();
-  }
-
-  render() {
-    const { inputText } = this.props;
-
-    return (
-      <form className="todo-input" onSubmit={this.taskSubmit}>
-        <button
-          className="todo-input__button btn-floating waves-effect waves-light btn blue"
-          type="submit"
-        >
-          <i className="material-icons">add</i>
-        </button>
-        <input
-          className="todo-input__field"
-          onChange={this.taskInput}
-          value={inputText}
-          type="text"
-          placeholder="Create some tasks..."
-        />
-      </form>
-    );
-  }
+  return (
+    <form
+      className="todo-input"
+      onSubmit={event => {
+        event.preventDefault();
+        onTaskSubmit();
+      }}
+    >
+      <button
+        className="todo-input__button btn-floating waves-effect waves-light btn blue"
+        type="submit"
+      >
+        <i className="todo-input__icon material-icons">add</i>
+      </button>
+      <input
+        className="todo-input__field"
+        onChange={event => onTaskChange(event.target.value)}
+        value={inputText}
+        type="text"
+        placeholder="Create some tasks..."
+      />
+    </form>
+  );
 }
 
 TodoInput.propTypes = {

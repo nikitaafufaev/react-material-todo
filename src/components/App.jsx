@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import '../styles/App.scss';
-
 import Notification from './Notification';
 import TodoInput from './TodoInput';
 import TodoOutput from './TodoOutput';
@@ -13,7 +11,7 @@ class App extends Component {
       inputText: '',
       incompleteTasks: [],
       completeTasks: [],
-      showNotification: false,
+      isShowNotification: false,
       isFailure: false,
       notificationText: '',
     };
@@ -48,7 +46,7 @@ class App extends Component {
 
     this.setState({
       completeTasks: [],
-      showNotification: true,
+      isShowNotification: true,
       isFailure: false,
       notificationText: `${amount} completed task${
         amount > 1 ? 's' : ''
@@ -66,7 +64,7 @@ class App extends Component {
 
       return {
         [targetTasks]: [...tasks],
-        showNotification: true,
+        isShowNotification: true,
         isFailure: false,
         notificationText: `Task "${removed}" successfully deleted`,
       };
@@ -95,12 +93,12 @@ class App extends Component {
   deleteNotification() {
     clearTimeout(this.timerId);
     this.timerId = setTimeout(() => {
-      this.setState({ showNotification: false });
+      this.setState({ isShowNotification: false });
     }, 3000);
   }
 
   checkTask(task) {
-    const state = { showNotification: true, isFailure: true };
+    const state = { isShowNotification: true, isFailure: true };
     if (task === '') {
       this.setState({
         ...state,
@@ -130,7 +128,7 @@ class App extends Component {
       inputText,
       incompleteTasks,
       completeTasks,
-      showNotification,
+      isShowNotification,
       isFailure,
       notificationText,
     } = this.state;
@@ -138,7 +136,7 @@ class App extends Component {
     return (
       <div className="row">
         <Notification
-          showNotification={showNotification}
+          isShowNotification={isShowNotification}
           isFailure={isFailure}
           notificationText={notificationText}
         />
