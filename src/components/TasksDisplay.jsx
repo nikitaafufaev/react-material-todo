@@ -4,8 +4,11 @@ import PropTypes from 'prop-types';
 import '../styles/TasksDisplay.scss';
 
 function TasksDisplay(props) {
-  const { incomplete, complete } = props;
-  const all = incomplete + complete;
+  const { completedList } = props;
+  const all = completedList.length;
+  const completeArr = completedList.filter(value => value);
+  const complete = completeArr.length;
+  const incomplete = all - complete;
 
   return (
     <div className="tasks-display white-text">
@@ -26,8 +29,7 @@ function TasksDisplay(props) {
 }
 
 TasksDisplay.propTypes = {
-  incomplete: PropTypes.number.isRequired,
-  complete: PropTypes.number.isRequired,
+  completedList: PropTypes.arrayOf(PropTypes.bool).isRequired,
 };
 
 export default TasksDisplay;

@@ -5,33 +5,27 @@ import '../styles/TodoList.scss';
 
 import TodoItem from './TodoItem';
 
-function renderTasks(tasks, done, toggleDone, deleteTask) {
-  return tasks.map((value, index) => (
-    <TodoItem
-      done={done}
-      item={value}
-      index={index}
-      toggleDone={toggleDone}
-      deleteTask={deleteTask}
-      key={value + Math.random().toFixed(3)}
-    />
-  ));
-}
-
 function TodoList(props) {
-  const { incompleteTasks, completeTasks, toggleDone, deleteTask } = props;
-
+  const { tasks, completedList, toggleDone, deleteTask } = props;
   return (
     <ul className="todo-list collection">
-      {renderTasks(incompleteTasks, false, toggleDone, deleteTask)}
-      {renderTasks(completeTasks, true, toggleDone, deleteTask)}
+      {tasks.map((value, index) => (
+        <TodoItem
+          done={completedList[index]}
+          item={value}
+          index={index}
+          toggleDone={toggleDone}
+          deleteTask={deleteTask}
+          key={value + Math.random().toFixed(3)}
+        />
+      ))}
     </ul>
   );
 }
 
 TodoList.propTypes = {
-  incompleteTasks: PropTypes.arrayOf(PropTypes.string).isRequired,
-  completeTasks: PropTypes.arrayOf(PropTypes.string).isRequired,
+  tasks: PropTypes.arrayOf(PropTypes.string).isRequired,
+  completedList: PropTypes.arrayOf(PropTypes.bool).isRequired,
   toggleDone: PropTypes.func.isRequired,
   deleteTask: PropTypes.func.isRequired,
 };

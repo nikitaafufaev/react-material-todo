@@ -9,6 +9,8 @@ class App extends Component {
     super();
     this.state = {
       inputText: '',
+      tasks: [],
+      completedList: [],
       incompleteTasks: [],
       completeTasks: [],
       isShowNotification: false,
@@ -36,34 +38,48 @@ class App extends Component {
 
     this.setState(state => ({
       inputText: '',
-      incompleteTasks: [...state.incompleteTasks, state.inputText],
+      tasks: [...state.tasks, state.inputText],
+      completedList: [...state.completedList, false],
     }));
   }
 
   onClearCompleteTasks() {
-    const { completeTasks } = this.state;
-    const amount = completeTasks.length;
+    this.setState(state => {
+      const removedArr = [];
+      state.completedList.forEach((value, index) => {
+        if (value) removedArr.push(index);
+      });
+      const removedAmount = removedArr.length;
+      const tasks = state.tasks.filter(
+        (value, index) => removedArr.indexOf(index) === -1,
+      );
+      const completedList = state.completedList.filter(
+        (value, index) => removedArr.indexOf(index) === -1,
+      );
 
-    this.setState({
-      completeTasks: [],
-      isShowNotification: true,
-      isFailure: false,
-      notificationText: `${amount} completed task${
-        amount > 1 ? 's' : ''
-      } successfully deleted`,
+      return {
+        tasks: [...tasks],
+        completedList: [...completedList],
+        isShowNotification: true,
+        isFailure: false,
+        notificationText: `${removedAmount} completed task${
+          removedAmount > 1 ? 's' : ''
+        } successfully deleted`,
+      };
     });
     this.deleteNotification();
   }
 
-  onDeleteTask(done, index) {
-    const targetTasks = done ? 'completeTasks' : 'incompleteTasks';
-
+  onDeleteTask(index) {
     this.setState(state => {
-      const tasks = state[targetTasks].slice();
+      const tasks = state.tasks.slice();
+      const completedList = state.completedList.slice();
       const removed = tasks.splice(index, 1)[0];
+      completedList.splice(index, 1);
 
       return {
-        [targetTasks]: [...tasks],
+        tasks: [...tasks],
+        completedList: [...completedList],
         isShowNotification: true,
         isFailure: false,
         notificationText: `Task "${removed}" successfully deleted`,
@@ -72,20 +88,13 @@ class App extends Component {
     this.deleteNotification();
   }
 
-  onToggleDone(done, index) {
-    const initialTasks = done ? 'completeTasks' : 'incompleteTasks';
-    const finiteTasks = done ? 'incompleteTasks' : 'completeTasks';
-    this.changeTaskStatus(initialTasks, finiteTasks, index);
-  }
-
-  changeTaskStatus(initialTasks, finiteTasks, index) {
+  onToggleDone(index) {
     this.setState(state => {
-      const tasks = state[initialTasks].slice();
-      const removed = tasks.splice(index, 1);
+      const completedList = state.completedList.slice();
+      completedList[index] = !completedList[index];
 
       return {
-        [finiteTasks]: [...state[finiteTasks], ...removed],
-        [initialTasks]: [...tasks],
+        completedList: [...completedList],
       };
     });
   }
@@ -126,6 +135,8 @@ class App extends Component {
   render() {
     const {
       inputText,
+      tasks,
+      completedList,
       incompleteTasks,
       completeTasks,
       isShowNotification,
@@ -149,6 +160,8 @@ class App extends Component {
               onTaskSubmit={this.onTaskSubmit}
             />
             <TodoOutput
+              tasks={tasks}
+              completedList={completedList}
               incompleteTasks={incompleteTasks}
               completeTasks={completeTasks}
               onToggleDone={this.onToggleDone}

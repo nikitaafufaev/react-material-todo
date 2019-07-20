@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import '../styles/TodoItem.scss';
 
 function TodoItem(props) {
-  const { item, index, done, toggleDone, deleteTask } = props;
+  const { done, item, index, toggleDone, deleteTask } = props;
   let classes = 'todo-item collection-item';
   let icon = 'check_box_outline_blank';
 
@@ -19,8 +19,8 @@ function TodoItem(props) {
         className="todo-item__main"
         role="button"
         tabIndex="0"
-        onClick={() => toggleDone(done, index)}
-        onKeyPress={() => toggleDone(done, index)}
+        onClick={() => toggleDone(index)}
+        onKeyPress={() => toggleDone(index)}
       >
         <i className="todo-item__icon material-icons">{icon}</i>
         <span className="todo-item__text">{item}</span>
@@ -28,7 +28,7 @@ function TodoItem(props) {
       <button
         className="todo-item__clear-button btn-floating btn-small waves-effect waves-light red"
         type="button"
-        onClick={() => deleteTask(done, index)}
+        onClick={() => deleteTask(index)}
       >
         <i className="todo-item__clear-icon material-icons">clear</i>
       </button>
