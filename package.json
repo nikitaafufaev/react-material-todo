@@ -1,10 +1,13 @@
 {
   "name": "react-materialize-todo",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "To Do",
+  "homepage": "https://nikitaafufaev.github.io/react-material-todo",
   "scripts": {
     "start": "webpack-dev-server --config webpack.config.dev.js",
-    "build": "webpack --config webpack.config.prod.js"
+    "build": "webpack --config webpack.config.prod.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "author": "Nikita Fufaev",
   "devDependencies": {
@@ -40,6 +43,7 @@
   },
   "dependencies": {
     "autoprefixer": "^9.6.0",
+    "gh-pages": "^2.0.1",
     "materialize-css": "^1.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
