@@ -5,14 +5,14 @@ import '../styles/ClearButton.scss';
 
 function ClearButton(props) {
   const { isCompleted, clearCompleteTasks } = props;
-  let classes = 'clear-button';
+  let classes = 'clear-button__btn btn waves-effect waves-light blue lighten-1';
 
-  if (!isCompleted) classes = `${classes} hidden`;
+  if (!isCompleted) classes = `${classes} disabled`;
 
   return (
-    <div className={classes}>
+    <div className="clear-button">
       <button
-        className="clear-button__btn btn waves-effect waves-light blue lighten-1"
+        className={classes}
         type="button"
         onClick={() => clearCompleteTasks()}
       >

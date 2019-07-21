@@ -9,31 +9,31 @@ import TodoList from './TodoList';
 import ClearButton from './ClearButton';
 
 function TodoOutput(props) {
-  const {
-    tasks,
-    completedList,
-    onToggleDone,
-    onClearCompleteTasks,
-    onDeleteTask,
-  } = props;
+  const { tasks, onToggleDone, onClearCompleteTasks, onDeleteTask } = props;
   let classes = 'todo-output';
 
   if (tasks.length === 0) {
     classes = `${classes} hidden`;
   }
 
+  const completedArr = tasks.filter(element => element.isCompleted);
+  const completed = completedArr.length;
+  const incompleted = tasks.length - completed;
+
+  const isCompleted =
+    tasks.findIndex(element => element.isCompleted === true) !== -1;
+
   return (
     <div className={classes}>
-      <TasksDisplay completedList={completedList} />
+      <TasksDisplay completed={completed} incompleted={incompleted} />
       <SearchBar />
       <TodoList
         tasks={tasks}
-        completedList={completedList}
         toggleDone={onToggleDone}
         deleteTask={onDeleteTask}
       />
       <ClearButton
-        isCompleted={completedList.indexOf(true) > -1}
+        isCompleted={isCompleted}
         clearCompleteTasks={onClearCompleteTasks}
       />
     </div>
@@ -41,8 +41,9 @@ function TodoOutput(props) {
 }
 
 TodoOutput.propTypes = {
-  tasks: PropTypes.arrayOf(PropTypes.string).isRequired,
-  completedList: PropTypes.arrayOf(PropTypes.bool).isRequired,
+  tasks: PropTypes.arrayOf(
+    PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.bool])),
+  ).isRequired,
   onToggleDone: PropTypes.func.isRequired,
   onClearCompleteTasks: PropTypes.func.isRequired,
   onDeleteTask: PropTypes.func.isRequired,

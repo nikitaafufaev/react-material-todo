@@ -6,17 +6,17 @@ import '../styles/TodoList.scss';
 import TodoItem from './TodoItem';
 
 function TodoList(props) {
-  const { tasks, completedList, toggleDone, deleteTask } = props;
+  const { tasks, toggleDone, deleteTask } = props;
   return (
     <ul className="todo-list collection">
-      {tasks.map((value, index) => (
+      {tasks.map((element, index) => (
         <TodoItem
-          done={completedList[index]}
-          item={value}
+          done={tasks[index].isCompleted}
+          item={element.title}
           index={index}
           toggleDone={toggleDone}
           deleteTask={deleteTask}
-          key={value + Math.random().toFixed(3)}
+          key={element + Math.random().toFixed(3)}
         />
       ))}
     </ul>
@@ -24,8 +24,9 @@ function TodoList(props) {
 }
 
 TodoList.propTypes = {
-  tasks: PropTypes.arrayOf(PropTypes.string).isRequired,
-  completedList: PropTypes.arrayOf(PropTypes.bool).isRequired,
+  tasks: PropTypes.arrayOf(
+    PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.bool])),
+  ).isRequired,
   toggleDone: PropTypes.func.isRequired,
   deleteTask: PropTypes.func.isRequired,
 };

@@ -10,12 +10,7 @@ class App extends Component {
     this.state = {
       inputText: '',
       tasks: [],
-      completedList: [],
-      incompleteTasks: [],
-      completeTasks: [],
-      isShowNotification: false,
-      isFailure: false,
-      notificationText: '',
+      notification: {},
     };
 
     this.onTaskChange = this.onTaskChange.bind(this);
@@ -38,119 +33,113 @@ class App extends Component {
 
     this.setState(state => ({
       inputText: '',
-      tasks: [...state.tasks, state.inputText],
-      completedList: [...state.completedList, false],
+      tasks: [
+        ...state.tasks,
+        {
+          title: state.inputText,
+          isCompleted: false,
+        },
+      ],
     }));
   }
 
   onClearCompleteTasks() {
     this.setState(state => {
-      const removedArr = [];
-      state.completedList.forEach((value, index) => {
-        if (value) removedArr.push(index);
+      let counter = 0;
+      state.tasks.forEach(element => {
+        if (element.isCompleted) counter += 1;
       });
-      const removedAmount = removedArr.length;
-      const tasks = state.tasks.filter(
-        (value, index) => removedArr.indexOf(index) === -1,
-      );
-      const completedList = state.completedList.filter(
-        (value, index) => removedArr.indexOf(index) === -1,
-      );
+      const newTasks = state.tasks.filter(element => !element.isCompleted);
 
       return {
-        tasks: [...tasks],
-        completedList: [...completedList],
-        isShowNotification: true,
-        isFailure: false,
-        notificationText: `${removedAmount} completed task${
-          removedAmount > 1 ? 's' : ''
-        } successfully deleted`,
+        tasks: [...newTasks],
+        notification: {
+          isShow: true,
+          isFailure: false,
+          text: `${counter} completed task${
+            counter > 1 ? 's' : ''
+          } successfully deleted`,
+        },
       };
     });
+
     this.deleteNotification();
   }
 
   onDeleteTask(index) {
     this.setState(state => {
       const tasks = state.tasks.slice();
-      const completedList = state.completedList.slice();
       const removed = tasks.splice(index, 1)[0];
-      completedList.splice(index, 1);
 
       return {
         tasks: [...tasks],
-        completedList: [...completedList],
-        isShowNotification: true,
-        isFailure: false,
-        notificationText: `Task "${removed}" successfully deleted`,
+        notification: {
+          isShow: true,
+          isFailure: false,
+          text: `Task "${removed.title}" successfully deleted`,
+        },
       };
     });
+
     this.deleteNotification();
   }
 
   onToggleDone(index) {
     this.setState(state => {
-      const completedList = state.completedList.slice();
-      completedList[index] = !completedList[index];
+      const tasks = state.tasks.slice();
+      tasks[index].isCompleted = !tasks[index].isCompleted;
 
       return {
-        completedList: [...completedList],
+        tasks: [...tasks],
       };
+    });
+  }
+
+  showNotification(isFailure, text) {
+    this.setState({
+      notification: {
+        isShow: true,
+        isFailure,
+        text,
+      },
     });
   }
 
   deleteNotification() {
     clearTimeout(this.timerId);
     this.timerId = setTimeout(() => {
-      this.setState({ isShowNotification: false });
+      this.setState({
+        notification: {
+          isShow: false,
+        },
+      });
     }, 3000);
   }
 
   checkTask(task) {
-    const state = { isShowNotification: true, isFailure: true };
     if (task === '') {
-      this.setState({
-        ...state,
-        notificationText: 'New task can not be empty',
-      });
+      this.showNotification(true, 'New task can not be empty');
       return false;
     }
 
     if (task.length < 3) {
-      this.setState({
-        ...state,
-        notificationText: 'New task must be at least 3 characters long',
-      });
+      this.showNotification(
+        true,
+        'New task must be at least 3 characters long',
+      );
       return false;
     }
 
-    this.setState({
-      ...state,
-      isFailure: false,
-      notificationText: `Task "${task}" successfully created`,
-    });
+    this.showNotification(false, `Task "${task}" successfully created`);
     return true;
   }
 
   render() {
-    const {
-      inputText,
-      tasks,
-      completedList,
-      incompleteTasks,
-      completeTasks,
-      isShowNotification,
-      isFailure,
-      notificationText,
-    } = this.state;
+    const { inputText, tasks, notification } = this.state;
 
     return (
       <div className="row">
-        <Notification
-          isShowNotification={isShowNotification}
-          isFailure={isFailure}
-          notificationText={notificationText}
-        />
+        <Notification notification={notification} />
         <div className="app col s12 m10 offset-m1 l8 offset-l2">
           <h3 className="app__title white-text center-align">To Do</h3>
           <div className="app__main card-panel">
@@ -161,9 +150,6 @@ class App extends Component {
             />
             <TodoOutput
               tasks={tasks}
-              completedList={completedList}
-              incompleteTasks={incompleteTasks}
-              completeTasks={completeTasks}
               onToggleDone={this.onToggleDone}
               onClearCompleteTasks={this.onClearCompleteTasks}
               onDeleteTask={this.onDeleteTask}
