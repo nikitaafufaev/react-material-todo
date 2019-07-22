@@ -3,14 +3,10 @@
   top: 0;
   left: 0;
   right: 0;
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   min-height: 5vh;
   padding: 10px;
-
-  &.show {
-    display: flex;
-  }
 }

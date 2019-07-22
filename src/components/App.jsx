@@ -26,7 +26,7 @@ class App extends Component {
 
   onTaskSubmit() {
     const { inputText } = this.state;
-    const success = this.checkTask(inputText);
+    const success = this.checkTask(inputText.trim());
 
     this.deleteNotification();
     if (!success) return;
@@ -36,7 +36,7 @@ class App extends Component {
       tasks: [
         ...state.tasks,
         {
-          title: state.inputText,
+          title: state.inputText.trim(),
           isCompleted: false,
         },
       ],
@@ -49,10 +49,10 @@ class App extends Component {
       state.tasks.forEach(element => {
         if (element.isCompleted) counter += 1;
       });
-      const newTasks = state.tasks.filter(element => !element.isCompleted);
+      const tasks = state.tasks.filter(element => !element.isCompleted);
 
       return {
-        tasks: [...newTasks],
+        tasks: [...tasks],
         notification: {
           isShow: true,
           isFailure: false,

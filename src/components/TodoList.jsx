@@ -7,16 +7,17 @@ import TodoItem from './TodoItem';
 
 function TodoList(props) {
   const { tasks, toggleDone, deleteTask } = props;
+
   return (
     <ul className="todo-list collection">
       {tasks.map((element, index) => (
         <TodoItem
-          done={tasks[index].isCompleted}
+          done={element.isCompleted}
           item={element.title}
           index={index}
           toggleDone={toggleDone}
           deleteTask={deleteTask}
-          key={element + Math.random().toFixed(3)}
+          key={element.title + Math.random().toFixed(3)}
         />
       ))}
     </ul>

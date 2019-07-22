@@ -1,15 +1,19 @@
 import React from 'react';
+import Fade from '@material-ui/core/Fade';
 import PropTypes from 'prop-types';
 
 import '../styles/Notification.scss';
 
 function Notification(props) {
   const { notification } = props;
-  const showClass = notification.isShow ? 'show' : '';
   const failureClass = notification.isFailure ? 'red' : 'teal';
-  const classes = `notification white-text center-align ${failureClass} ${showClass}`;
+  const classes = `notification white-text center-align ${failureClass}`;
 
-  return <div className={classes}>{notification.text}</div>;
+  return (
+    <Fade in={notification.isShow}>
+      <div className={classes}>{notification.text}</div>
+    </Fade>
+  );
 }
 
 Notification.propTypes = {
